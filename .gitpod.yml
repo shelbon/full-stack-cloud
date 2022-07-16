@@ -12,4 +12,9 @@ ports:
     onOpen: open-browser
 vscode:
   extensions:
-    - "svelte.svelte-vscode"
+    - 'svelte.svelte-vscode'
+github:
+  prebuilds:
+    master: true
+    branches: true
+    pullRequests: true
