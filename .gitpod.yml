@@ -4,7 +4,9 @@
 
 tasks:
   - init: pnpm install
-    command: pnpm run dev
+    command: |
+      export HMR_HOST=`gp url 5173`
+      pnpm run dev
 
 ports:
   - port: 5173
