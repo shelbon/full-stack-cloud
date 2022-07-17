@@ -1,13 +1,24 @@
-<div class="todo">
-  <form action="" method="">
-    <input type="hidden" name="done" value="" />
-    <button aria-label="Mark done/not done" class="toggle" />
+<script lang="ts">
+  export let todo: Todo;
+</script>
+
+<div class="todo" class:done={todo.done}>
+  <form action="/todos/{todo.uid}.json?_method=PATCH" method="post">
+    <input type="hidden" name="done" value={todo.done ? '' : true} />
+    <button
+      aria-label="Mark  todo as {todo.done ? 'not done' : 'done'}"
+      class="toggle"
+    />
   </form>
-  <form class="text">
-    <input type="text" />
+  <form
+    class="text"
+    action="/todos/{todo.uid}.json?_method=PATCH"
+    method="post"
+  >
+    <input name="text" type="text" value={todo.text} />
     <button aria-label="Save todo" class="save" />
   </form>
-  <form>
+  <form action="/todos/{todo.uid}.json?_method=DELETE" method="post">
     <button aria-label="Delete todo" class="delete" />
   </form>
 </div>
@@ -80,8 +91,7 @@
     opacity: 1;
   }
 
-  /*TODO uncomment when the api endpoints available
-  /* .done {
+  .done {
     transform: none;
     opacity: 0.4;
     filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.1));
@@ -89,5 +99,5 @@
 
   .done .toggle {
     background-image: url("data:image/svg+xml,%3Csvg width='22' height='16' viewBox='0 0 22 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 1.5L7.4375 14.5L1.5 8.5909' stroke='%23676778' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  } */
+  }
 </style>
