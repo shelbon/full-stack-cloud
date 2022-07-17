@@ -8,5 +8,6 @@ export const PATCH: RequestHandler = async (event) => {
   const formData = getFormBody(await event.request.formData());
   return api(event, {
     text: formData.text,
+    done: formData.done ?? undefined,
   });
 };
