@@ -1,7 +1,10 @@
 import type { RequestEvent } from '@sveltejs/kit';
 
 let todos: Todo[] = [];
-export const api = (requestEvent: RequestEvent, todoItem?: Todo) => {
+export const api = (
+  requestEvent: RequestEvent,
+  data?: Record<string, unknown>
+) => {
   let body = {};
   let status = 500;
   const { request } = requestEvent;
@@ -12,12 +15,21 @@ export const api = (requestEvent: RequestEvent, todoItem?: Todo) => {
       status = 200;
       break;
     case 'POST':
-      todoItem?.text ? todos.push(todoItem) : '';
+      data?.text ? todos.push(data as Todo) : '';
       status = 201;
       break;
     case 'DELETE':
       todos = todos.filter((todo) => todo.uid !== requestEvent.params.uid);
       status = 200;
+      break;
+    case 'PATCH':
+      status = 200;
+      todos = todos.map((todo) => {
+        if (todo.uid === requestEvent.params.uid) {
+          todo.text = data?.text as string;
+        }
+        return todo;
+      });
       break;
     default:
       break;

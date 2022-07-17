@@ -1,6 +1,6 @@
 import { getFormBody } from '$lib/utils/form';
 import type { RequestHandler } from '@sveltejs/kit';
-import { api } from './_api';
+import { api } from './_api.ts';
 //TODO persist in database
 
 export const GET: RequestHandler = (requestEvent) => {
