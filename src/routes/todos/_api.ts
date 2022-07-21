@@ -16,6 +16,7 @@ export const api = (
       break;
     case 'POST':
       data?.text ? todos.push(data as Todo) : '';
+      body = data;
       status = 201;
       break;
     case 'DELETE':
@@ -34,11 +35,15 @@ export const api = (
         }
         return todo;
       });
+      body = todos.find((t) => t.uid === requestEvent.params.uid);
       break;
     default:
       break;
   }
-  if (request.method.toUpperCase() !== 'GET') {
+  if (
+    request.method.toUpperCase() !== 'GET' &&
+    request.headers.get('accept') !== 'application/json'
+  ) {
     return {
       status: 303,
       headers: {
