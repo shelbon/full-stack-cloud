@@ -1,7 +1,8 @@
+import PrismaClient from '$lib/prisma';
 import type { RequestEvent } from '@sveltejs/kit';
 
-let todos: Todo[] = [];
-export const api = (
+const prisma = new PrismaClient();
+export const api = async (
   requestEvent: RequestEvent,
   data?: Record<string, unknown>
 ) => {
@@ -11,31 +12,36 @@ export const api = (
 
   switch (request.method.toUpperCase()) {
     case 'GET':
-      body = todos;
+      body = await prisma.todo.findMany();
       status = 200;
       break;
     case 'POST':
-      data?.text ? todos.push(data as Todo) : '';
-      body = data;
-      status = 201;
+      if (data?.text) {
+        body = await prisma.todo.create({
+          data: {
+            created_at: data.created_at as Date,
+            done: data.done as boolean,
+            text: data.text as string,
+          },
+        });
+        status = 201;
+      }
       break;
     case 'DELETE':
-      todos = todos.filter((todo) => todo.uid !== requestEvent.params.uid);
+      await prisma.todo.delete({
+        where: { uid: requestEvent.params.uid },
+      });
       status = 200;
       break;
     case 'PATCH':
       status = 200;
-      todos = todos.map((todo) => {
-        if (todo.uid === requestEvent.params.uid) {
-          if (data?.text) {
-            todo.text = data?.text as string;
-          } else {
-            todo.done = data?.done as boolean;
-          }
-        }
-        return todo;
+      body = await prisma.todo.update({
+        data: {
+          done: data.done as boolean,
+          text: data.text as string,
+        },
+        where: { uid: requestEvent.params.uid },
       });
-      body = todos.find((t) => t.uid === requestEvent.params.uid);
       break;
     default:
       break;
