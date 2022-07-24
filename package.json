@@ -5,12 +5,14 @@
     "predev": "prisma migrate dev",
     "dev": "vite dev",
     "build": "vite build",
+    "postbuild": "cp prisma/schema.prisma  .vercel/output/functions/render.func/workspace/full-stack-cloud/.svelte-kit/output/server/nodes/ && cp  node_modules/@prisma/engines/*query* .vercel/output/functions/render.func/workspace/full-stack-cloud/.svelte-kit/output/server/nodes/ ",
     "package": "svelte-kit package",
     "preview": "vite preview",
     "prepare": "svelte-kit sync",
     "test": "playwright test",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch"
+    "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
+    "vercel-build": "prisma migrate deploy && npm run build"
   },
   "devDependencies": {
     "@playwright/test": "^1.22.2",
