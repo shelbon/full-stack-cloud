@@ -5,20 +5,20 @@
     "predev": "prisma migrate dev",
     "dev": "vite dev",
     "build": "vite build",
-    "postbuild": "cp prisma/schema.prisma  .vercel/output/functions/render.func/workspace/full-stack-cloud/.svelte-kit/output/server/nodes/ && cp  node_modules/@prisma/engines/*query* .vercel/output/functions/render.func/workspace/full-stack-cloud/.svelte-kit/output/server/nodes/ ",
     "package": "svelte-kit package",
     "preview": "vite preview",
     "prepare": "svelte-kit sync",
     "test": "playwright test",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
-    "vercel-build": "prisma migrate deploy && npm run build"
+    "vercel-build": "prisma migrate deploy && pnpm run build"
   },
   "devDependencies": {
     "@playwright/test": "^1.22.2",
     "@sveltejs/adapter-auto": "next",
+    "@sveltejs/adapter-vercel": "1.0.0-next.65",
     "@sveltejs/kit": "next",
-    "prisma": "^4.1.0",
+    "prisma": "4.1.0",
     "svelte": "^3.44.0",
     "svelte-check": "^2.7.1",
     "svelte-preprocess": "^4.10.6",
@@ -28,6 +28,7 @@
   },
   "type": "module",
   "dependencies": {
-    "@prisma/client": "^4.1.0"
-  }
+    "@prisma/client": "4.1.0"
+  },
+  "packageManager": "yarn@3.2.2"
 }
